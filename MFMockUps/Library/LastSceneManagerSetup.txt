@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/jumpMockUp.unity
+  isLoaded: 1
+  isActive: 1
