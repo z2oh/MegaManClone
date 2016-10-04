@@ -6,9 +6,6 @@ public class Controller2D : MonoBehaviour
 {
     public LayerMask collision_mask;
 
-    // Collide with the default obstacle layer.
-    public static int Obstacle_Layer = 1;
-
     const float skin_width = 0.15f;
 
     public int horizontal_ray_count = 10;
