@@ -14,12 +14,13 @@ public class Movement_Experimental : MonoBehaviour {
 	public float ground_acceleration;
 	public float air_acceleration;
 
-	public float vert_velocity_cap;
+	public float decay_time, transition_time;
 
-	float horz_smoothing;
+	float jump_transition;
 	public float horz_smoothing_time;
 
 	float max_acceleration, min_acceleration, jump_time, initial_jump_velocity;
+	float min_initial_jump_velocity;
 	Vector2 up, right;
 
 	bool jump_released;
@@ -30,14 +31,15 @@ public class Movement_Experimental : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		max_acceleration = 2 * max_jump_height / (max_standing_jump_duration * max_standing_jump_duration);
-		initial_jump_velocity = 2 * max_jump_height / max_standing_jump_duration;
-		min_acceleration = initial_jump_velocity * initial_jump_velocity / (2 * min_jump_height);
+		//initial_jump_velocity = 2 * max_jump_height / max_standing_jump_duration;
+		initial_jump_velocity = Mathf.Sqrt(2 * max_acceleration * max_jump_height);
+		//min_acceleration = initial_jump_velocity * initial_jump_velocity / (2 * min_jump_height);
+		min_initial_jump_velocity = Mathf.Sqrt(2 * max_acceleration * min_jump_height);
 
-		jump_time = max_standing_jump_duration;
+
+		jump_time = 0;
 		up = Vector2.up;
 		right = Vector2.right;
-
-		horz_smoothing = 0f;
 
 		sprite = GetComponent<SpriteRenderer> ();
 		physics = GetComponent<Controller2DPhysics> ();
@@ -46,13 +48,13 @@ public class Movement_Experimental : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 		float delta = Time.deltaTime;
 
 		physics.Set_Velocity (Calculate_Horz_Velocity (delta) + Calculate_Vert_Velocity (delta), "Player_Input");
 
 	}
-
+	/*
 	Vector2 Calculate_Vert_Velocity(float time){
 		Vector2 velocity = physics.Get_Physics_Data ("Player_Input").velocity;
 		float speed = velocity.x * up.x + velocity.y * up.y;
@@ -84,11 +86,52 @@ public class Movement_Experimental : MonoBehaviour {
 		if (speed < -vert_velocity_cap)
 			speed = -vert_velocity_cap;
 		return up * speed;
+	}*/
+
+	Vector2 Calculate_Vert_Velocity(float time){
+		Vector2 velocity = physics.Get_Physics_Data("Player_Input").velocity;
+		float base_speed = velocity.x * up.x + velocity.y * up.y;
+		velocity = physics.Get_Physics_Data("Max_Jump").velocity;
+		float add_speed = velocity.x * up.x + velocity.y * up.y;
+		if (controller.collisions.below) {
+			jump_released = false;
+
+			if (Input.GetButton ("Jump")) {
+				jump_time = decay_time;
+				base_speed = min_initial_jump_velocity;
+				physics.Set_Velocity (up * (initial_jump_velocity - base_speed), "Max_Jump");
+			}
+		} else {
+			if (base_speed + add_speed > 0) {
+				if (!Input.GetButton ("Jump")) {
+					jump_released = true;
+					jump_transition = transition_time;
+				}
+				if (jump_released){
+					jump_transition -= time;
+					if (jump_time < 0)
+						jump_time = 0;
+					physics.Set_Velocity ((jump_transition / transition_time) * up * (initial_jump_velocity - min_initial_jump_velocity), "Max_Jump");
+				}
+				else {
+					physics.Set_Velocity (up * (initial_jump_velocity - min_initial_jump_velocity), "Max_Jump");
+					//jump_time -= time;
+				}
+			} else {
+				jump_time -= time;
+				if (jump_time < 0)
+					jump_time = 0;
+				physics.Set_Velocity ((jump_time / decay_time) * up * (initial_jump_velocity - min_initial_jump_velocity), "Max_Jump");
+			}
+			base_speed -= time * max_acceleration;
+		}
+		return up * base_speed;
 	}
+
 	Vector2 Calculate_Horz_Velocity(float time){
-		Vector2 input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-		Vector2 velocity = physics.Get_Physics_Data ("Player_Input").velocity;
-		float speed = velocity.x * right.x + velocity.y * right.y;
+		Vector2 input = Input.GetAxisRaw("Horizontal") * right;
+		//Vector2 velocity = physics.Get_Physics_Data ("Player_Input").velocity;
+		//float speed = velocity.x * right.x + velocity.y * right.y;
 		if(input.x > 0)
 		{
 			sprite.flipX = true;
@@ -97,7 +140,8 @@ public class Movement_Experimental : MonoBehaviour {
 		{
 			sprite.flipX = false;
 		}
-		speed = Mathf.SmoothDamp(speed, input.x * horz_movement_speed, ref horz_smoothing, (controller.collisions.below) ? ground_acceleration : air_acceleration);
-		return right * speed;
+		//speed = Mathf.SmoothDamp(speed, input.x * horz_movement_speed, ref horz_smoothing, (controller.collisions.below) ? ground_acceleration : air_acceleration);
+		float speed = horz_movement_speed;
+		return input * speed;
 	}
 }

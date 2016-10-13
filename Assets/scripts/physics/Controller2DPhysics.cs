@@ -25,11 +25,11 @@ public class Controller2DPhysics : MonoBehaviour {
 	}
 
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 		float delta = Time.deltaTime;
 
 		//calculate net values
-		Vector2 net_velocity = new Vector2 (0, 0);
+		velocity = new Vector2 (0, 0);
 		Vector2 net_acceleration = new Vector2 (0, 0);
 		List<string> keys = new List<string> (physics.Keys);
 		foreach (string key in keys) {
@@ -62,13 +62,13 @@ public class Controller2DPhysics : MonoBehaviour {
 				}
 
 				physics [key] = phys;
-				net_velocity += phys.velocity;
+				velocity += phys.velocity;
 			}
 		}
 		if(lock_duration > 0)
 			lock_duration -= delta;
 
-		controller.Move (delta * new Vector3(net_velocity.x, net_velocity.y, 0));
+		controller.Move (delta * new Vector3(velocity.x, velocity.y, 0));
 	}
 
 	public void Force_Velocity(Vector2 v1, Vector2 v2, float time){
