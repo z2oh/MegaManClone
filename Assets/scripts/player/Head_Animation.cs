@@ -42,7 +42,7 @@ public class Head_Animation : MonoBehaviour
             if (body_animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 <= 0.5)
             {
                 print("head wobble");
-                this.transform.position = new Vector3(head_offset_x, head_offset_y - .04f, 0);
+                this.transform.position = head_offset_x * Gravity.right + (head_offset_y) * Gravity.up;
             }
             else
             {
