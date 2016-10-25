@@ -1,0 +1,49 @@
+Controller2DPhysics
+Purpose: This script is designed to allow other scripts to modify
+	an object's velocity and acceleration rather than directly
+	modifying the position.
+	
+	Unlike ControllerPhysicsLight this class allows you to create
+	multiple independent physics sets. For example a moving platform
+	can move the player while a separate script causes the player to jump
+	without the two scripts interfering.
+
+Controller2DPhysicsLight
+Purpose: Identical to physics except it only manages one physics set. Use this instead of Controller2DPhysics unless you need to independently manage multiple velocities on a single object.
+
+Fields:
+Vector3 velocity: the net velocity of the object attached.
+
+Methods:
+void Accelerate (Vector3 value, string name = “DEFAULT”, bool revive = true)
+accelerates the object in 'value' direction for one update
+'name' determines which physics set is modified
+if the physics set is dying (from the Kill method) and 'revive' is true the set will stop dying.
+
+void Set_Velocity (Vector3 value, string name = “DEFAULT”, bool revive = true)
+sets the velocity of the named physics set.
+If the physics set is dying (from the Kill method) and 'revive' is true the set will stop dying.
+
+void Set_Drag (float value, string name = “DEFAULT”, bool revive = true)
+Sets the linear drag in a physics set.
+If the physics set is dying (from the Kill method) and 'revive' is true the set will stop dying.
+
+void Kill(float time, string name)
+Linearly decays the named physics set for the duration named then resets the physics set.
+If time is less than or equal to 0 the set will reset on next FixedUpdate
+
+void Lock_Velocity (Vector3 v1, Vector3 v2, float time)
+Forces the object to move at a rate between the two vectors for the duration 'time'. “DEFAULT” set is locked between the values. Other sets are reset. This method overrides the physics data but will not move the object through walls.
+
+Physics_Data Get_Physics_Data(string name = “DEFAULT”)
+Returns the physics data for the named physics set.
+
+struct Physics_Data:
+fields:
+Vector3 velocity: Velocity of object
+Vector3 acceleration: Acceleration of object, Resets each FixedUpdate.
+Float drag: Linear drag applied to object.
+Float decay_time: The total time it will take for the set to decay if the set is dying.
+Float time_remaining: The time before the object dies if the set is dying.
+bool dying: determine if the object is dying or not. See Kill method.
+

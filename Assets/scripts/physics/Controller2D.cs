@@ -2,6 +2,7 @@
 using System.Collections;
 
 [RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class Controller2D : MonoBehaviour
 {
     public LayerMask collision_mask;
@@ -18,11 +19,19 @@ public class Controller2D : MonoBehaviour
 
     BoxCollider2D collider;
     RaycastOrigins raycast_origins;
+	Rigidbody2D rigidbody;
     public CollisionInfo collisions;
 
     void Awake()
-    {
-        collider = GetComponent<BoxCollider2D>();
+
+
+	{
+		collider = GetComponent<BoxCollider2D> ();
+		rigidbody = GetComponent<Rigidbody2D> ();
+	}
+	void Start(){
+		rigidbody.isKinematic = true;
+
         CalculateRaySpacing();
     }
 
@@ -39,7 +48,7 @@ public class Controller2D : MonoBehaviour
         {
             VerticalCollisisons(ref velocity);
         }
-        transform.Translate(velocity);
+        transform.Translate(velocity, Space.World);
     }
 
     void HorizontalCollisisons(ref Vector3 velocity)
