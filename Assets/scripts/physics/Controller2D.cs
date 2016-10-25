@@ -20,7 +20,7 @@ public class Controller2D : MonoBehaviour
     RaycastOrigins raycast_origins;
     public CollisionInfo collisions;
 
-    void Start()
+    void Awake()
     {
         collider = GetComponent<BoxCollider2D>();
         CalculateRaySpacing();

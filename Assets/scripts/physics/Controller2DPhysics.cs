@@ -22,7 +22,7 @@ public class Controller2DPhysics : MonoBehaviour {
 	Vector2 min, max;
 	float lock_duration;
 
-	void Start () {
+	void Awake () {
 		lock_duration = 0;
 
 		controller = GetComponent<Controller2D> ();

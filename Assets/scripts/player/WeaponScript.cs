@@ -3,10 +3,10 @@ using System.Collections;
 
 public class WeaponScript : MonoBehaviour
 {
-    public Transform bullet;
+    //public Transform bullet;
     public float shootingRate = 0.3f;
     private float shootCooldown;
-
+    public GameObject bullet;
     void Start()
     {
         shootCooldown = 0f;
@@ -19,15 +19,16 @@ public class WeaponScript : MonoBehaviour
             shootCooldown -= Time.deltaTime;
         }
     }
-    public void Attack(bool isEnemy)
+    public void Attack(bool isEnemy, Vector3 vel)
     {
         if (CanAttack)
         {
             shootCooldown = shootingRate;
-            var shotTransform = Instantiate(bullet) as Transform;
-            shotTransform.position = transform.position;
-            ShotScript shot = shotTransform.gameObject.GetComponent<ShotScript>();
-            if (shot != null)
+           GameObject shotTransform = Instantiate(bullet);
+            shotTransform.GetComponent<MoveScript>().Fire(vel);
+            //shotTransform.position = transform.position;
+            //ShotScript shot = shotTransform.gameObject.GetComponent<ShotScript>();
+           /* if (shot != null)
             {
                 shot.isEnemyShot = isEnemy;
             }
@@ -35,7 +36,7 @@ public class WeaponScript : MonoBehaviour
             if (move != null)
             {
                 move.direction = this.transform.right;
-            }
+            }*/
         }
     }
     public bool CanAttack
