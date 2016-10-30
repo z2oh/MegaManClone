@@ -23,12 +23,15 @@ public class Controller2D : MonoBehaviour
     public CollisionInfo collisions;
 
     void Awake()
+
+
 	{
 		collider = GetComponent<BoxCollider2D> ();
 		rigidbody = GetComponent<Rigidbody2D> ();
 	}
 	void Start(){
 		rigidbody.isKinematic = true;
+
         CalculateRaySpacing();
     }
 

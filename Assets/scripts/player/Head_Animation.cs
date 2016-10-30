@@ -11,6 +11,7 @@ public class Head_Animation : MonoBehaviour
     private GameObject body;
     private float head_offset_x;
     private float head_offset_y;
+    private float head_offset_flipx;
     private float last_blink;
 
     // Use this for initialization
@@ -33,26 +34,33 @@ public class Head_Animation : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        head_offset_y = parent.transform.position.y + 0.25f;
-        head_offset_x = parent.transform.position.x - 0.032f;
+    {   
+
+        head_offset_y = 0.035f;
+        head_offset_x = -0.04f;
+        head_offset_flipx = 0.04f;
         //print(body_animator.GetCurrentAnimatorStateInfo(0));
-        if (body_animator.GetBool("idle"))
+        /*if (body_animator.GetBool("idle"))
         {
             if (body_animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1 <= 0.5)
             {
-                print("head wobble");
-                this.transform.position = head_offset_x * Gravity.right + (head_offset_y) * Gravity.up;
+                if (this.GetComponent<SpriteRenderer>().flipX)
+                {
+                    this.transform.position = head_offset_flipx * Gravity.right + Gravity.up;
+                    print(Gravity.up);
+                }
+                else
+                    this.transform.position = head_offset_x * Gravity.right + (head_offset_y) * Gravity.up;
             }
             else
             {
-                this.transform.position = new Vector3(head_offset_x, head_offset_y, 0);
+                this.transform.position = head_offset_x * Gravity.right +  Gravity.up;
             }
         }
         else
         {
-            this.transform.position = new Vector3(head_offset_x, head_offset_y, 0);
-        }
+            this.transform.position = head_offset_x * Gravity.right + (head_offset_y) * Gravity.up;
+        }*/
 
         if(Time.time > next_blink)
         {

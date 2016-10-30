@@ -26,6 +26,7 @@ public class Controller2DPhysics : MonoBehaviour {
 		controller = GetComponent<Controller2D> ();
 	}
 	void Start () {
+
 		lock_duration = 0;
 
 		physics = new Dictionary<string, Physics_Data> ();

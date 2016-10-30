@@ -3,10 +3,11 @@ using System.Collections;
 
 public class PlayerScript : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
+    private GameObject player;
+    // Use this for initialization
+    void Start () {
+        player = GameObject.Find("player");
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -16,7 +17,7 @@ public class PlayerScript : MonoBehaviour {
             WeaponScript weapon = GetComponent<WeaponScript>();
         if (weapon != null)
             {
-                weapon.Attack(false);
+                weapon.Attack(true, player.GetComponent<Player_Movement>().Get_Forward());
             }
         }
 	}

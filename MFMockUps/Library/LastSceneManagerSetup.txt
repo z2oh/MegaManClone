@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/jumpMockUp.unity
+- path: Assets/gravityMockUp.unity
   isLoaded: 1
   isActive: 1

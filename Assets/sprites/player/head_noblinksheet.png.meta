@@ -1,17 +1,15 @@
 fileFormatVersion: 2
-guid: b2dbddebfb551ff4ab1f7a5e45c60ff1
-timeCreated: 1476899567
+guid: 08faa98b2431d28468344c5b15b3c753
+timeCreated: 1477591805
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: head_blink_0
-    21300002: head_blink_1
-    21300004: head_blink_2
-    21300006: head_blink_3
+    21300000: head_noblinksheet_0
+    21300002: head_noblinksheet_1
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     linearTexture: 0
     correctGamma: 0
     fadeOut: 0
@@ -52,12 +50,17 @@ TextureImporter:
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
   textureType: 8
-  buildTargetSettings: []
+  buildTargetSettings:
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    textureFormat: -3
+    compressionQuality: 50
+    allowsAlphaSplitting: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: head_blink_0
+      name: head_noblinksheet_0
       rect:
         serializedVersion: 2
         x: 0
@@ -70,36 +73,10 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: head_blink_1
+      name: head_noblinksheet_1
       rect:
         serializedVersion: 2
         x: 32
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: head_blink_2
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: head_blink_3
-      rect:
-        serializedVersion: 2
-        x: 96
         y: 0
         width: 32
         height: 32
