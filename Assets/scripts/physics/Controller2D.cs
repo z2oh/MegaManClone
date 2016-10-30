@@ -46,7 +46,8 @@ public class Controller2D : MonoBehaviour
 		{
 			VerticalCollisisons(ref velocity);
 		}
-		transform.Translate(velocity, Space.World);
+		print ("test");
+		rigidbody.MovePosition(rigidbody.position + new Vector2(velocity.x, velocity.y));
 	}
 
 	void HorizontalCollisisons(ref Vector3 velocity)
