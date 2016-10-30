@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 
 [RequireComponent(typeof(Controller2D))]
-public class Controller2DPhysics : MonoBehaviour {
-
+public class Controller2DPhysics : MonoBehaviour
+{
 	// The current velocity of the object
 	//changing this value will NOT change the velocity of the object
 	//Use the set velocity method instead
@@ -22,11 +22,12 @@ public class Controller2DPhysics : MonoBehaviour {
 	Vector3 min, max;
 	float lock_duration;
 
-	void Awake(){
+	void Awake()
+	{
 		controller = GetComponent<Controller2D> ();
 	}
-	void Start () {
-
+	void Start ()
+	{
 		lock_duration = 0;
 
 		physics = new Dictionary<string, Physics_Data> ();
@@ -37,7 +38,8 @@ public class Controller2DPhysics : MonoBehaviour {
 
 	// This method needs to be a fixed update
 	// There really isn't anyway around that
-	void FixedUpdate () {
+	void FixedUpdate ()
+	{
 		//the change in time
 		//as this is a fixed update this value is a constant
 		float delta = Time.deltaTime;

@@ -72,7 +72,6 @@ public class Head_Animation : MonoBehaviour
         }
         else if(Time.time > last_blink + 1 && Time.time < next_blink)
         {
-            print("reseting animation");
             animator.SetBool("blink", false);
         }
     }
