@@ -17,7 +17,7 @@ public class PlayerScript : MonoBehaviour {
             WeaponScript weapon = GetComponent<WeaponScript>();
         if (weapon != null)
             {
-                weapon.Attack(true, player.GetComponent<Player_Movement>().Get_Forward());
+                weapon.Attack(player.GetComponent<Player_Movement>().Get_Forward());
             }
         }
 	}
