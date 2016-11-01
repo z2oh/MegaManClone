@@ -11,6 +11,12 @@ public class Movement : MonoBehaviour
 	public float jump_height = 4;
 	public float time_to_jump_apex = .4f;
 
+	// The max number of jumps the player can perform.
+	public float num_jumps = 2;
+
+	// The current jump that the player is on.
+	float current_jump = 0;
+
 	// accelerationTimeAirborne and accelerationTimeGrounded have to do with the 'smoothing' factor when changing directions. It should be easier to change directions when on the ground.
 	float acceleration_time_airborne = .1f;
 	float acceleration_time_grounded = .05f;
@@ -65,10 +71,18 @@ public class Movement : MonoBehaviour
 		{
 			sprite.flipX = false;
 		}
-		// If space is pressed and the player is touching the ground, we set the y velocity to be jump velocity.
-		if(Input.GetKeyDown(KeyCode.Space) && controller.collisions.below)
+		if(controller.collisions.below)
 		{
-			velocity.y = jump_velocity;
+			current_jump = 0;
+		}
+		// If space is pressed and the player is touching the ground, we set the y velocity to be jump velocity.
+		if(Input.GetKeyDown(KeyCode.Space))
+		{
+			if(controller.collisions.below || current_jump < num_jumps)
+			{
+				velocity.y = jump_velocity;
+				current_jump++;
+			}
 		}
 		if(Input.GetKeyDown(KeyCode.L))
 		{
