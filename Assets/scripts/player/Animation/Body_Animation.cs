@@ -1,13 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Body_Animation : MonoBehaviour {
+public class Body_Animation : MonoBehaviour
+{
     private Animator animator;
-    private GameObject parent;
+    private GameObject player;
+	private SpriteRenderer body;
 
     // Use this for initialization
     void Start () {
-        animator = this.GetComponent<Animator>();
+		player = transform.parent.gameObject;
+		body = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
     }
 	
 	// Update is called once per frame
@@ -24,6 +28,14 @@ public class Body_Animation : MonoBehaviour {
         {
             setBools(true, false, false);
         }
+		if(!player.GetComponent<Movement>().IsFacingLeft())
+		{
+			body.flipX = true;
+		}
+		else
+		{
+			body.flipX = false;
+		}
 	}
 
     void setBools(bool idle, bool jump, bool run)

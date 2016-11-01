@@ -2,8 +2,7 @@
 using System.Collections;
 using Assets.scripts.world;
 
-[RequireComponent(typeof(Controller2D))]
-[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(Controller2DJeremy))]
 public class Movement : MonoBehaviour
 {
 
@@ -31,17 +30,16 @@ public class Movement : MonoBehaviour
 	float velocity_x_smoothing;
 
 	// The controller that is used in collision detection.
-	Controller2D controller;
+	Controller2DJeremy controller;
 
-	// The sprite of the player.
-	SpriteRenderer sprite;
+	Vector3 forward;
 
 	void Start()
 	{
 		// We set the controller and input handler for this object, as well as calculating the gravity and jump velocity.
-		controller = GetComponent<Controller2D>();
+		controller = GetComponent<Controller2DJeremy>();
 		normal_gravity = -(2 * jump_height) / Mathf.Pow(time_to_jump_apex, 2);
-		sprite = GetComponent<SpriteRenderer>();
+		forward = Vector3.left;
 	}
 
 	void Update()
@@ -51,10 +49,6 @@ public class Movement : MonoBehaviour
 		// If the player is actively colliding with something above or below it, the velocity in the y direction is reset to 0.
 		if(controller.collisions.above || controller.collisions.below)
 		{
-			if(controller.collisions.above)
-			{
-				print("Colliding above.");
-			}
 			velocity.y = 0;
 		}
 
@@ -65,11 +59,11 @@ public class Movement : MonoBehaviour
 		input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 		if(input.x > 0)
 		{
-			sprite.flipX = true;
+			forward = Vector3.right;
 		}
 		else if(input.x < 0)
 		{
-			sprite.flipX = false;
+			forward = Vector3.left;
 		}
 		if(controller.collisions.below)
 		{
@@ -97,5 +91,10 @@ public class Movement : MonoBehaviour
 		velocity.y += gravity * Time.deltaTime;
 		// We send the calculated velocity vector to the controller which will actually move the object.
 		controller.Move(velocity * Time.deltaTime);
+	}
+
+	public bool IsFacingLeft()
+	{
+		return forward == Vector3.left;
 	}
 }

@@ -3,9 +3,14 @@ using System.Collections;
 
 public class Arms_Animation : MonoBehaviour {
     private Animator animator;
+	private GameObject player;
+	private SpriteRenderer arms;
+
 	// Use this for initialization
 	void Start () {
-	    animator = this.GetComponent<Animator>();
+	    animator = GetComponent<Animator>();
+		player = transform.parent.gameObject;
+		arms = GetComponent<SpriteRenderer>();
 	}
 
     void Update()
@@ -22,7 +27,15 @@ public class Arms_Animation : MonoBehaviour {
         {
             setBools(true, false, false);
         }
-    }
+		if(!player.GetComponent<Movement>().IsFacingLeft())
+		{
+			arms.flipX = true;
+		}
+		else
+		{
+			arms.flipX = false;
+		}
+	}
 
     void setBools(bool idle, bool jump, bool run)
     {
