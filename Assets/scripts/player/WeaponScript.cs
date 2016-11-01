@@ -7,6 +7,10 @@ public class WeaponScript : MonoBehaviour
     public float shootingRate = 0.3f;
     private float shootCooldown;
     public GameObject bullet;
+    void Awake()
+    {
+
+    }
     void Start()
     {
         shootCooldown = 0f;
@@ -19,7 +23,7 @@ public class WeaponScript : MonoBehaviour
             shootCooldown -= Time.deltaTime;
         }
     }
-    public void Attack(bool isEnemy, Vector3 vel)
+    public void Attack( Vector3 vel)// removed bool isEnemy
     {
         if (CanAttack)
         {
