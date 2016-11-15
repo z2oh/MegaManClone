@@ -8,8 +8,8 @@ public class Health : MonoBehaviour {
 	public int start_health = 3;
 	// If true, the object is destroyed when health drops below 0.
 	public bool simple_death = true;
-	// The amount of time that the entity is invincible upon being hit (in ms).
-	public float invincibility_time_on_hit = 100;
+	// The amount of time that the entity is invincible upon being hit (in s).
+	public float invincibility_time_on_hit = 1;
 
 	// The current health of the entity.
 	int current_health;
@@ -27,6 +27,10 @@ public class Health : MonoBehaviour {
 	public void RemoveHealth(int amount)
 	{
 		print("removeHealth");
+		print(current_health);
+		print(time_of_last_hit);
+		print(time_of_last_hit + invincibility_time_on_hit);
+		print(Time.time);
 		// If we are passed the invincibility frames.
 		if(Time.time > time_of_last_hit + invincibility_time_on_hit)
 		{
